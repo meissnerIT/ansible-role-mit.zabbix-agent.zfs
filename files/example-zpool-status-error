@@ -1,0 +1,31 @@
+  pool: tank
+ state: ONLINE
+status: One or more devices has experienced an error resulting in data
+	corruption.  Applications may be affected.
+action: Restore the file in question if possible.  Otherwise restore the
+	entire pool from backup.
+   see: http://zfsonlinux.org/msg/ZFS-8000-8A
+  scan: scrub repaired 0 in 0h17m with 0 errors on Sun Jul  8 00:41:40 2018
+config:
+
+	NAME        STATE     READ WRITE CKSUM
+	tank        ONLINE       0     0  282K
+	  vdc       ONLINE       0     0  565K
+	  vdd       ONLINE       0     0     0
+	  vde       ONLINE       0     0     0
+
+errors: Permanent errors have been detected in the following files:
+
+        tank/dovecot:<0x589923>
+        /var/spool/dovecot/private/brogle.de/sysadmin/Maildir/dovecot.list.index.log
+        /var/spool/dovecot/private/brogle.de/carolin.riegel/Maildir/.INBOX.Kundenantworten/dovecot.index.log-2018-07-11
+        /var/spool/dovecot/private/brogle.de/sysadmin/Maildir/.INBOX.Fehler.status 500/dovecot-uidlist-2018-07-11
+        /var/spool/dovecot/private/brogle.de/anna-lena.specht/Maildir/.INBOX.Anfragen Online-Shop/dovecot-uidlist-2018-07-11
+        tank/dovecot:<0x599583>
+        /var/spool/dovecot/private/brogle.de/bewerbung/Maildir/dovecot-uidlist-2018-07-11
+        /var/spool/dovecot/private/brogle.de/sysadmin/Maildir/.INBOX.Fehler.status 500/dovecot.index.log
+        /var/spool/dovecot/private/brogle.de/carolin.riegel/Maildir/.INBOX.Kundenantworten/dovecot-uidlist-2018-07-11
+        /var/spool/dovecot/private/brogle.de/sysadmin/Maildir/.INBOX.Fehler.status 500/dovecot.index.cache
+        tank/dovecot:<0x5995e6>
+        tank/dovecot:<0x5995ec>
+        tank/dovecot:<0x5995f8>
