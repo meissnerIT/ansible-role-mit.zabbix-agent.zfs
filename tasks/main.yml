@@ -7,15 +7,6 @@
   ansible.builtin.set_fact:
     is_jail: "{{ 'jails' in ansible_virtualization_tech_guest }}"
 
-- name: Copy sudo rules for zfs access
-  ansible.builtin.copy:
-    src: Linux/sudoers.d/local-mit-zabbix-agent-zfs
-    dest: "{{ etc_prefix }}/etc/sudoers.d/local-mit-zabbix-agent-zfs"
-    mode: "0440"
-    validate: visudo -cf %s
-  # FreeBSD doesn't need sudo for zfs
-  when: ansible_distribution == 'Debian'
-
 - name: Remove deprecated local-userparameter-zfs.conf
   ansible.builtin.file:
     path: "{{ zabbix_agent_conf_dir }}/local-userparameter-zfs.conf"
@@ -41,6 +32,13 @@
   notify: Restart zabbix-agent
   when: "ansible_system != 'FreeBSD' or not is_jail"
 
+- name: Remove deprecated sudo rules for zfs access
+  ansible.builtin.file:
+    dest: "{{ etc_prefix }}/etc/sudoers.d/local-mit-zabbix-agent-zfs"
+    state: absent
+  # FreeBSD never used sudo for zfs
+  when: ansible_distribution == 'Debian'
+
 - name: Gather the package facts
   ansible.builtin.package_facts:
     manager: auto
@@ -53,5 +51,5 @@
     create: true
     path: /etc/logcheck/violations.ignore.d/local
     line: "^\\w{3} [ :0-9]{11} [._[:alnum:]-]+ sudo:   zabbix : PWD=\\/ ; USER=root ; COMMAND=\\/sbin\\/(zfs|zpool) .*"
-    mode: '644'
+    mode: "644"
   when: "'logcheck' in ansible_facts.packages and ansible_distribution == 'Debian' and ansible_distribution_major_version|int == 11"
