@@ -32,6 +32,10 @@
   notify: Restart zabbix-agent
   when: "ansible_system != 'FreeBSD' or not is_jail"
 
+# Flush handlers before removing sudo rules
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: Remove deprecated sudo rules for zfs access
   ansible.builtin.file:
     dest: "{{ etc_prefix }}/etc/sudoers.d/local-mit-zabbix-agent-zfs"
